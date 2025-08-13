@@ -40,11 +40,12 @@ async function updateEmployee(id, name, surname, dob, emp_no, salary, role, emai
 			`
                 UPDATE employees
                 SET name=$1, surname=$2, birth_date=$3, employee_number=$4, salary=$5, role=$6, manager_id=$7, email=$8
-                WHERE id=$9;
+                WHERE id=$9
+				RETURNING *;
             `,
 			[name, surname, dob, emp_no, salary, role, manager, email, id]
 		);
-		return result.rowCount;
+		return result.rows;
 	} catch (err) {
 		console.error(err);
 		return 'DB_ERROR';
@@ -54,7 +55,7 @@ async function updateEmployee(id, name, surname, dob, emp_no, salary, role, emai
 async function deleteEmployee(id) {
 	try {
 		const result = await pool.query('DELETE FROM employees WHERE id=$1 RETURNING *;', [id]);
-		return result.rows[0];
+		return result.rows;
 	} catch (err) {
 		console.error(err);
 		return 'DB_ERROR';

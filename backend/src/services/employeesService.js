@@ -54,7 +54,7 @@ async function addEmployee(details) {
 			manager || null
 		);
 
-		if (result.length === 0) {
+		if (result === 'DB_ERROR' || result.length === 0) {
 			return 'DB_ERROR';
 		}
 
@@ -89,7 +89,11 @@ async function updateEmployee(id, details) {
 			manager || null
 		);
 
-		return result;
+		if (result === 'DB_ERROR' || result.length === 0) {
+			return 'DB_ERROR';
+		}
+
+		return result[0];
 	} catch (err) {
 		console.error(err);
 		return 'SERVICE_ERROR';
@@ -100,7 +104,11 @@ async function removeEmployee(id) {
 	try {
 		const result = await employeesRepo.deleteEmployee(id);
 
-		return result;
+		if (result === 'DB_ERROR' || result.length === 0) {
+			return 'DB_ERROR';
+		}
+
+		return result[0];
 	} catch (err) {
 		console.error(err);
 		return 'SERVICE_ERROR';

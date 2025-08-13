@@ -24,7 +24,7 @@ async function fetchEmployee(req, res) {
 		const { id } = req.params;
 
 		if (!id) {
-			return res.status(400).json({ success: false, message: 'Employee ID is missing' });
+			return res.status(400).json({ success: false, message: 'Employee ID is required' });
 		}
 
 		const employee = await employeesService.fetchEmployee(id);
@@ -88,7 +88,7 @@ async function updateEmployee(req, res) {
 		const { id } = req.params;
 
 		if (!id) {
-			return res.status(400).json({ success: false, message: 'Employee ID is missing' });
+			return res.status(400).json({ success: false, message: 'Employee ID is required' });
 		}
 
 		const result = await employeesService.updateEmployee(id, {
@@ -101,10 +101,60 @@ async function updateEmployee(req, res) {
 			manager,
 			email,
 		});
-	} catch (err) {}
+
+		if (result === 'MANAGER_LOOP') {
+			return res.status(400).json({ success: false, message: 'Employees cannot be their own manager' });
+		}
+
+		if (result === 'MANAGER_DNE') {
+			return res.status(400).json({ success: false, message: 'Chosen manager does not exist' });
+		}
+
+		if (result === 'DB_ERROR' || result === 'SERVICE_ERROR') {
+			return res.status(500).json({ success: false, message: 'Internal server error' });
+		}
+
+		const data = {
+			old_details: {
+				name,
+				surname,
+				dob,
+				employee_no,
+				salary,
+				role,
+				manager,
+				email,
+			},
+			new_details: result,
+		};
+
+		return res.status(200).json({ success: true, message: 'Successfully updated employee details', data: data });
+	} catch (err) {
+		console.error(err);
+		return res.status(500).json({ success: false, message: 'Internal server error' });
+	}
 }
 
-async function removeEmployee(req, res) {}
+async function removeEmployee(req, res) {
+	try {
+		const { id } = req.params;
+
+		if (!id) {
+			return res.status(400).json({ success: false, message: 'Employee ID is required' });
+		}
+
+		const result = await employeesService.removeEmployee(id);
+
+		if (result === 'DB_ERROR' || result === 'SERVICE_ERROR') {
+			return res.status(500).json({ success: false, message: 'Internal server error' });
+		}
+
+		return res.status(200).json({ success: true, message: 'Successfully removed employee', data: result });
+	} catch (err) {
+		console.error(err);
+		return res.status(500).json({ success: false, message: 'Internal server error' });
+	}
+}
 
 export const employeesController = {
 	fetchAllEmployees,
