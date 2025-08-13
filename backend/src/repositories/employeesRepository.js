@@ -14,7 +14,7 @@ async function fetchAllEmployees() {
 async function fetchEmployee(id) {
 	try {
 		const result = await pool.query('SELECT * FROM employees WHERE id=$1;', [id]);
-		return result.rows[0];
+		return result.rows;
 	} catch (err) {
 		console.error(err);
 		return 'DB_ERROR';
@@ -24,10 +24,10 @@ async function fetchEmployee(id) {
 async function createEmployee(name, surname, dob, emp_no, salary, role, email, manager = null) {
 	try {
 		const result = await pool.query(
-			'INSERT INTO employees (name, surname, birth_date, employee_number, salary, role, manager_id, email) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);',
+			'INSERT INTO employees (name, surname, birth_date, employee_number, salary, role, manager_id, email) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;',
 			[name, surname, dob, emp_no, salary, role, manager, email]
 		);
-		return result.rowCount;
+		return result.rows;
 	} catch (err) {
 		console.error(err);
 		return 'DB_ERROR';
@@ -61,10 +61,22 @@ async function deleteEmployee(id) {
 	}
 }
 
+async function checkDuplicateEntry(emp_no, email) {
+	try {
+		const result = await pool.query('SELECT id FROM employees WHERE employee_number=$1 OR email=$2;');
+
+		return result.rows.length > 0;
+	} catch (err) {
+		console.error(err);
+		return 'DB_ERROR';
+	}
+}
+
 export const employeesRepo = {
 	fetchAllEmployees,
 	fetchEmployee,
 	createEmployee,
 	updateEmployee,
 	deleteEmployee,
+	checkDuplicateEntry,
 };
