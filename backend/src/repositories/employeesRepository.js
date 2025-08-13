@@ -1,5 +1,4 @@
-import { error } from 'console';
-import pool from '../db';
+import pool from '../db.js';
 
 async function fetchAllEmployees() {
 	try {

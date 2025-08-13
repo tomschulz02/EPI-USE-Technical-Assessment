@@ -6,4 +6,14 @@ const pool = new Pool({
 	ssl: { rejectUnauthorized: false },
 });
 
+pool
+	.connect()
+	.then((client) => {
+		console.log('Connected to DB');
+		client.release();
+	})
+	.catch((error) => {
+		console.error('Database connection error', error);
+	});
+
 export default pool;

@@ -1,4 +1,4 @@
-import { employeesService } from '../services/employeesService';
+import { employeesService } from '../services/employeesService.js';
 
 async function fetchAllEmployees(req, res) {
 	try {

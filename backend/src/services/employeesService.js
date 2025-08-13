@@ -1,4 +1,4 @@
-import { employeesRepo } from '../repositories/employeesRepository';
+import { employeesRepo } from '../repositories/employeesRepository.js';
 
 async function fetchAllEmployees() {
 	try {
