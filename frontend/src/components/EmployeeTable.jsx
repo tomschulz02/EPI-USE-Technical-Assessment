@@ -3,6 +3,8 @@ import '../styles/table.css';
 import md5 from 'md5';
 
 export default function EmployeeTable({ employees, onEdit, onDelete }) {
+	const manager_map = employees.map((emp, index) => {});
+
 	return (
 		<table className="employee-table">
 			<thead>

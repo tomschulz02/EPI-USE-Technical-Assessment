@@ -1,0 +1,233 @@
+/* GENERAL STYLES FOR WHOLE SITE */
+:root {
+	--main-color: rgba(0, 23, 67, 255);
+	--secondary-color: rgba(206, 20, 67, 255);
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+		'Helvetica Neue', sans-serif;
+}
+
+#root {
+	background-color: whitesmoke;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+header {
+	width: 100%;
+	height: 60px;
+	color: var(--main-color);
+	background-color: whitesmoke;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+}
+
+nav {
+	position: fixed;
+	top: 60px;
+	width: 100%;
+	height: 40px;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	padding: 0 10px;
+	background-color: var(--main-color);
+}
+
+nav a {
+	text-decoration: none;
+	color: whitesmoke;
+	font-size: 1.1em;
+	line-height: 40px;
+	text-align: center;
+	min-width: 150px;
+	height: 100%;
+	transition: all 0.2s ease;
+	&:hover {
+		background-color: whitesmoke;
+		color: var(--main-color);
+	}
+}
+
+nav a.active {
+	background-color: var(--secondary-color);
+	font-weight: 600;
+	&:hover {
+		color: whitesmoke;
+	}
+}
+
+main {
+	min-height: 600px;
+	position: relative;
+	margin-top: 100px;
+	flex: 1 0 auto;
+	max-height: 900px;
+	overflow: auto;
+}
+
+footer {
+	flex-shrink: 0;
+	width: 100%;
+	height: 60px;
+	background-color: var(--main-color);
+	color: whitesmoke;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: auto;
+}
+
+.home-welcome-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.home-welcome-header {
+	color: var(--main-color);
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	padding-top: 100px;
+	font-size: 1.5em;
+}
+
+.home-welcome-nav {
+	display: flex;
+	background-color: var(--secondary-color);
+	width: 100%;
+	min-height: 40px;
+	padding: 30px;
+	margin: 20px 0 0;
+	justify-content: center;
+	gap: 20px;
+}
+
+.home-welcome-nav-item {
+	background-color: var(--main-color);
+	color: whitesmoke;
+	padding: 15px 20px;
+	text-decoration: none;
+	border-radius: 10px;
+	transition: transform 0.3s ease;
+	&:hover {
+		transform: translateY(-5px);
+	}
+}
+
+.home-welcome-message {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	width: 100%;
+	min-height: 300px;
+	padding: 40px;
+	justify-content: start;
+	align-items: center;
+	text-align: center;
+	font-size: 1.05em;
+}
+
+.view-page-nav-bar {
+	display: flex;
+	flex-direction: row-reverse;
+	margin: 20px 10px;
+}
+
+.view-page-nav-bar a {
+	text-decoration: none;
+	border-radius: 40px;
+	line-height: 40px;
+	height: 40px;
+	padding: 0 15px;
+	border: 1px solid rgb(200, 200, 200);
+	margin: 0 10px;
+	color: var(--main-color);
+}
+
+.view-page-nav-bar a.active {
+	background-color: var(--main-color);
+	color: whitesmoke;
+}
+
+.view-page-content {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+}
+
+.table-page-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.table-page-content h1 {
+	color: var(--main-color);
+	margin-bottom: 20px;
+}
+
+.table-page-search {
+	font-size: 1.1em;
+	border: 1px solid rgb(200, 200, 200);
+	width: 80%;
+	padding: 5px 10px;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	box-shadow: 0px 2px 4px rgba(200, 200, 200, 0.8);
+	&:focus {
+		outline: none;
+		border: 1px solid var(--main-color);
+	}
+}
+
+.employee-table {
+	width: 100%;
+	border: 1px solid black;
+	border-radius: 10px;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.employee-table thead tr {
+	background-color: #f0f0f0;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	border-radius: 10px 10px 0 0;
+}
+
+.employee-table thead th {
+	text-align: center;
+	border-bottom: 2px solid black;
+	padding: 10px 10px 5px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	&:hover {
+		background-color: rgba(200, 200, 200, 0.8);
+	}
+}
+
+.employee-table thead th:first-child {
+	border-radius: 10px 0 0 0;
+}
+
+.employee-table thead th:last-child {
+	border-radius: 0 10px 0 0;
+}
+
+.employee-table tbody td {
+	padding: 5px 10px;
+}
+
+.employee-table tbody tr:nth-child(even) {
+	background-color: rgb(200, 200, 200);
+}

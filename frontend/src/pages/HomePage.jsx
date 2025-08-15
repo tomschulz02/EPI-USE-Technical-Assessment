@@ -1,49 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import EmployeeTable from '../components/EmployeeTable';
-import SearchBar from '../components/SearchBar';
-import api from '../api/api';
+import { Link } from 'react-router-dom';
 
 export default function HomePage() {
-	const [employees, setEmployees] = useState([]);
-	const [search, setSearch] = useState('');
-	const [filteredEmployees, setFilteredEmployees] = useState([]);
-
-	useEffect(() => {
-		const fetchEmployees = async () => {
-			const result = await api.get('/employees/').then((res) => {
-				return res.data.data;
-			});
-
-			setEmployees(result);
-		};
-
-		fetchEmployees();
-	}, []);
-
-	useEffect(() => {
-		const filtered = employees.filter((emp) =>
-			`${emp.name} ${emp.surname}`.toLowerCase().includes(search.toLowerCase())
-		);
-		setFilteredEmployees(filtered);
-	}, [employees, search]);
-
-	const handleDelete = (id) => {
-		if (window.confirm('Delete this employee?')) {
-			api.delete(`/employees/${id}`).then(() => {
-				setEmployees((prev) => prev.filter((emp) => emp.id !== id));
-			});
-		}
-	};
-
 	return (
-		<div>
-			<h1>Employees</h1>
-			<SearchBar value={search} onChange={setSearch} />
-			<EmployeeTable
-				employees={filteredEmployees}
-				onEdit={(id) => (window.location.href = `/edit/${id}`)}
-				onDelete={handleDelete}
-			/>
+		<div className="home-welcome-container">
+			<div className="home-welcome-header">
+				<h2>Welcome</h2>
+			</div>
+			<div className="home-welcome-nav">
+				<Link to={'/view'} className="home-welcome-nav-item">
+					View Employees
+				</Link>
+				<Link to={'/add'} className="home-welcome-nav-item">
+					Add Employees
+				</Link>
+			</div>
+			<div className="home-welcome-message">
+				<p>Welcome to the cloud-hosted employee register for EPI-USE.</p>
+				<p>Here you can view all the employees in the organisation in either a table or tree format. It's up to you.</p>
+				<p>
+					You can also add new employees to the organisation, or modify existing employees to reflect business advances.
+				</p>
+				<p>
+					Get started by navigating to one of our pages using the quick links or the navigation bar at the top of the
+					page
+				</p>
+			</div>
 		</div>
 	);
 }
