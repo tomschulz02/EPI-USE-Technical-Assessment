@@ -22,7 +22,7 @@ export default function EditEmployeePage() {
 	if (!employee) return <p>Loading...</p>;
 
 	return (
-		<div>
+		<div className="edit-employees-window">
 			<h1>Edit Employee</h1>
 			<EmployeeForm initialData={employee} managers={managers} onSubmit={handleSubmit} />
 		</div>

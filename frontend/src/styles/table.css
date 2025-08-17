@@ -1,0 +1,123 @@
+.employee-table {
+	width: 100%;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	border-collapse: separate;
+	border-spacing: 0;
+	max-height: 500px;
+	overflow: auto;
+	position: relative;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	background: white;
+	margin: 20px 0;
+}
+
+.employee-table thead tr {
+	background-color: #f8f9fa;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.employee-table thead th {
+	text-align: start;
+	border-bottom: 2px solid #dee2e6;
+	padding: 16px;
+	font-weight: 600;
+	color: #212529;
+	font-size: 0.95rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	&:hover {
+		background-color: #f1f3f5;
+	}
+}
+
+.employee-table thead th:first-child {
+	border-radius: 8px 0 0 0;
+	padding-left: 20px;
+}
+
+.employee-table thead th:last-child {
+	border-radius: 0 8px 0 0;
+	padding-right: 20px;
+}
+
+.employee-table tbody td {
+	padding: 12px 16px;
+	color: #495057;
+	border-bottom: 1px solid #e9ecef;
+	font-size: 0.9rem;
+}
+
+.employee-table tbody tr {
+	transition: background-color 0.2s ease;
+}
+
+.employee-table tbody tr:hover {
+	background-color: #f8f9fa;
+}
+
+.employee-table tbody tr:nth-child(even) {
+	background-color: #f8f9fa;
+}
+
+.employee-table tbody tr:nth-child(even):hover {
+	background-color: #f1f3f5;
+}
+
+.employee-table tbody td:first-child {
+	padding-left: 20px;
+}
+
+.employee-table tbody td:last-child {
+	padding-right: 20px;
+}
+
+.employee-table-employee-actions {
+	cursor: pointer;
+	width: 5px;
+	color: #6c757d;
+	font-weight: bold;
+	text-align: center;
+	transition: color 0.2s ease;
+}
+
+.employee-table-employee-actions:hover {
+	color: #212529;
+}
+
+.context-menu-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+}
+
+.context-menu {
+	background: white;
+	border: none;
+	border-radius: 6px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+	padding: 6px 0;
+	min-width: 160px;
+	z-index: 101;
+}
+
+.context-menu button {
+	display: block;
+	width: 100%;
+	padding: 8px 16px;
+	border: none;
+	background: none;
+	text-align: left;
+	cursor: pointer;
+	color: #495057;
+	font-size: 0.9rem;
+	transition: all 0.2s ease;
+}
+
+.context-menu button:hover {
+	background-color: #d1d1d1;
+	color: #212529;
+}
