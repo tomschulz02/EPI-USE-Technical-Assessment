@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import HierarchyTree from '../components/HierarchyTree';
 import api from '../api/api';
+import apiRequest from '../api/api';
 
 export default function HierarchyPage() {
 	const [data, setData] = useState(null);
 
 	useEffect(() => {
-		api.get('/hierarchy').then((res) => setData(res.data));
+		const fetchTree = async () => {
+			try {
+				const data = await apiRequest('/employees/hierarchy/', { method: 'GET' });
+				setData(data.data);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		fetchTree();
 	}, []);
 
 	if (!data) return <p>Loading...</p>;
