@@ -8,5 +8,6 @@ router.get('/:id', employeesController.fetchEmployee);
 router.post('/', employeesController.addEmployee);
 router.put('/:id', employeesController.updateEmployee);
 router.delete('/:id', employeesController.removeEmployee);
+router.get('/hierarchy', employeesController.fetchHierarchy);
 
 export default router;

@@ -165,10 +165,26 @@ async function removeEmployee(req, res) {
 	}
 }
 
+async function fetchHierarchy() {
+	try {
+		const result = await employeesService.fetchHierarchy();
+
+		if (result === 'DB_ERROR' || result === 'SERVICE_ERROR') {
+			return res.status(500).json({ success: false, message: 'Internal server error' });
+		}
+
+		return res.status(200).json({ success: true, message: 'Successfully retreived hierarchy', data: result });
+	} catch (error) {
+		console.error(err);
+		return res.status(500).json({ success: false, message: 'Internal server error' });
+	}
+}
+
 export const employeesController = {
 	fetchAllEmployees,
 	fetchEmployee,
 	addEmployee,
 	updateEmployee,
 	removeEmployee,
+	fetchHierarchy,
 };

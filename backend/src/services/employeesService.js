@@ -115,10 +115,22 @@ async function removeEmployee(id) {
 	}
 }
 
+async function fetchHierarchy() {
+	try {
+		const result = await employeesRepo.fetchHierarchy();
+
+		return result;
+	} catch (error) {
+		console.error(err);
+		return 'SERVICE_ERROR';
+	}
+}
+
 export const employeesService = {
 	fetchAllEmployees,
 	fetchEmployee,
 	addEmployee,
 	updateEmployee,
 	removeEmployee,
+	fetchHierarchy,
 };
