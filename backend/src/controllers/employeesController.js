@@ -165,7 +165,7 @@ async function removeEmployee(req, res) {
 	}
 }
 
-async function fetchHierarchy() {
+async function fetchHierarchy(req, res) {
 	try {
 		const result = await employeesService.fetchHierarchy();
 
@@ -175,7 +175,7 @@ async function fetchHierarchy() {
 
 		return res.status(200).json({ success: true, message: 'Successfully retreived hierarchy', data: result });
 	} catch (error) {
-		console.error(err);
+		console.error(error);
 		return res.status(500).json({ success: false, message: 'Internal server error' });
 	}
 }

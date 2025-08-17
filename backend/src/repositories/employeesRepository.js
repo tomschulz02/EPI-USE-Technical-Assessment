@@ -72,42 +72,6 @@ async function checkDuplicateEntry(emp_no, email) {
 	}
 }
 
-async function fetchHierarchy() {
-	try {
-		const { rows } = await pool.query(`WITH RECURSIVE org_chart AS (
-			SELECT
-				e.id,
-				e.name,
-				e.surname,
-				e.role,
-				e.manager_id,
-				ARRAY[e.id] AS path
-			FROM employees e
-			WHERE e.manager_id IS NULL
-
-			UNION ALL
-
-			SELECT
-				e.id,
-				e.name,
-				e.surname,
-				e.role,
-				e.manager_id,
-				path || e.id
-			FROM employees e
-			INNER JOIN org_chart oc ON oc.id = e.manager_id
-			WHERE NOT e.id = ANY(path)
-		)
-		SELECT json_agg(row_to_json(oc)) AS hierarchy
-		FROM org_chart oc;
-		`);
-		return rows[0].hierarchy;
-	} catch (error) {
-		console.error(err);
-		return 'DB_ERROR';
-	}
-}
-
 export const employeesRepo = {
 	fetchAllEmployees,
 	fetchEmployee,
@@ -115,5 +79,4 @@ export const employeesRepo = {
 	updateEmployee,
 	deleteEmployee,
 	checkDuplicateEntry,
-	fetchHierarchy,
 };
