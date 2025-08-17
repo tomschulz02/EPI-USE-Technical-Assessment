@@ -3,6 +3,7 @@ import EmployeeTable from '../components/EmployeeTable';
 import SearchBar from '../components/SearchBar';
 import Loader from '../components/Loader';
 import apiRequest from '../api/api';
+import EditEmployeePage from './EditEmployeePage';
 
 export default function TablePage() {
 	const [employees, setEmployees] = useState([]);
@@ -10,6 +11,8 @@ export default function TablePage() {
 	const [search, setSearch] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [sortConfig, setSortConfig] = useState({ column: '', direction: 'asc' });
+	const [openEdit, setOpenEdit] = useState(false);
+	const [selectedEmployee, setSelectedEmployee] = useState(null);
 
 	useEffect(() => {
 		const fetchEmployees = async () => {
@@ -31,15 +34,17 @@ export default function TablePage() {
 
 	const filtered = employees.filter((emp) => `${emp.name} ${emp.surname}`.toLowerCase().includes(search.toLowerCase()));
 
-	const handleDelete = (id) => {
+	const handleDelete = async (id) => {
 		if (window.confirm('Delete this employee?')) {
 			setLoading(true);
-			api
-				.delete(`/employees/${id}`)
-				.then(() => {
-					setEmployees((prev) => prev.filter((emp) => emp.id !== id));
-				})
-				.finally(setLoading(false));
+			try {
+				await apiRequest(`/employees/${id}`, { method: 'DELETE' });
+			} catch (error) {
+				console.error(error);
+			} finally {
+				setLoading(false);
+				window.location.reload();
+			}
 		}
 	};
 
@@ -93,19 +98,30 @@ export default function TablePage() {
 		setEmployees(sortedEmployees);
 	};
 
+	const editEmployee = (id) => {
+		setSelectedEmployee(id);
+		setOpenEdit(true);
+	};
+
+	const closeEdit = (e) => {
+		if (e.target.className === 'edit-employees-container' || e.target.className === 'edit-employees-close-window') {
+			setOpenEdit(false);
+		}
+
+		if (e.action === 'submit') {
+			window.location.reload();
+		}
+	};
+
 	return (
 		<>
 			{loading && <Loader />}
+			{openEdit && <EditEmployeePage emp_id={selectedEmployee} closeEdit={closeEdit} />}
 			<div className="table-page-content">
 				<h1>Employees Table</h1>
 				<SearchBar classname={'table-page-search'} value={search} onChange={setSearch} />
 				{filtered.length > 0 ? (
-					<EmployeeTable
-						employees={filtered}
-						onEdit={(id) => (window.location.href = `/edit/${id}`)}
-						onDelete={handleDelete}
-						onSort={handleSort}
-					/>
+					<EmployeeTable employees={filtered} onEdit={editEmployee} onDelete={handleDelete} onSort={handleSort} />
 				) : (
 					<div>No employee data to display</div>
 				)}

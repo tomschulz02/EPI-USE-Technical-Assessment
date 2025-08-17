@@ -37,7 +37,16 @@ async function fetchEmployee(req, res) {
 			return res.status(404).json({ success: false, message: 'Employee not found' });
 		}
 
-		return res.status(200).json({ success: true, message: 'Retrieved all registered employees', data: employee });
+		return res.status(200).json({
+			success: true,
+			message: 'Retrieved employee data',
+			data: {
+				...employee,
+				manager: employee.manager_id || '',
+				dob: employee.birth_date,
+				employee_no: employee.employee_number,
+			},
+		});
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ success: false, message: 'Internal server error' });

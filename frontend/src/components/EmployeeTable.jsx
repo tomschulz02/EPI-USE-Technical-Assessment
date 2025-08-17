@@ -117,14 +117,14 @@ export default function EmployeeTable({ employees, onEdit, onDelete, onSort }) {
 						</button>
 						<button
 							onClick={() => {
-								onEdit(activeEmployee);
+								onEdit(activeEmployee.id);
 								handleCloseMenu();
 							}}>
 							Edit
 						</button>
 						<button
 							onClick={() => {
-								onDelete(activeEmployee);
+								onDelete(activeEmployee.id);
 								handleCloseMenu();
 							}}>
 							Delete

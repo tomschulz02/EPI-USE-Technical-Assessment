@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/form.css';
 
 export default function EmployeeForm({ initialData, managers, onSubmit }) {
-	const [form, setForm] = useState(
-		initialData || {
-			name: '',
-			surname: '',
-			email: '',
-			role: '',
-			salary: '',
-			dob: '',
-			employee_no: '',
-			manager: '',
-		}
-	);
+	const [form, setForm] = useState({
+		name: '',
+		surname: '',
+		email: '',
+		role: '',
+		salary: '',
+		dob: '',
+		employee_no: '',
+		manager: '',
+	});
+
+	useEffect(() => {
+		setForm(initialData);
+	}, [initialData]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -22,32 +24,51 @@ export default function EmployeeForm({ initialData, managers, onSubmit }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		// console.log(form);
 		onSubmit(form);
 	};
 
 	return (
 		<form className="employee-form" onSubmit={handleSubmit}>
-			<input name="name" value={form.name} onChange={handleChange} placeholder="First Name" required />
-			<input name="surname" value={form.surname} onChange={handleChange} placeholder="Last Name" required />
-			<input name="email" value={form.email} onChange={handleChange} placeholder="Email" required />
-			<input name="role" value={form.role} onChange={handleChange} placeholder="Role" required />
-			<input type="number" name="salary" value={form.salary} onChange={handleChange} placeholder="Salary" required />
-			<input type="date" name="birth_date" value={form.dob} onChange={handleChange} required />
-			<input
-				name="employee_number"
-				value={form.employee_no}
-				onChange={handleChange}
-				placeholder="Employee Number"
-				required
-			/>
-			<select name="manager_id" value={form.manager} onChange={handleChange}>
-				<option value="">No Manager</option>
-				{managers.map((m) => (
-					<option key={m.id} value={m.id}>
-						{m.name} {m.surname}
-					</option>
-				))}
-			</select>
+			<div className="form-field">
+				<input name="name" value={form.name || ''} onChange={handleChange} placeholder=" " required />
+				<label>First Name</label>
+			</div>
+			<div className="form-field">
+				<input name="surname" value={form.surname || ''} onChange={handleChange} placeholder=" " required />
+				<label>Last Name</label>
+			</div>
+			<div className="form-field">
+				<input name="email" value={form.email || ''} onChange={handleChange} placeholder=" " required />
+				<label>Email</label>
+			</div>
+			<div className="form-field">
+				<input name="role" value={form.role || ''} onChange={handleChange} placeholder=" " required />
+				<label>Role</label>
+			</div>
+			<div className="form-field">
+				<input type="number" name="salary" value={form.salary || ''} onChange={handleChange} placeholder=" " required />
+				<label>Salary</label>
+			</div>
+			<div className="form-field">
+				<input type="date" name="dob" value={form.dob ? form.dob.split('T')[0] : ''} onChange={handleChange} required />
+				<label>Date of Birth</label>
+			</div>
+			<div className="form-field">
+				<input name="employee_no" value={form.employee_no || ''} onChange={handleChange} placeholder=" " required />
+				<label>Employee Number</label>
+			</div>
+			<div className="form-field">
+				<select name="manager" value={form.manager} onChange={handleChange}>
+					<option value="">No Manager</option>
+					{managers.map((m) => (
+						<option key={m.id} value={m.id}>
+							{m.name} {m.surname}
+						</option>
+					))}
+				</select>
+				<label>Manager</label>
+			</div>
 			<button type="submit">Save</button>
 		</form>
 	);
