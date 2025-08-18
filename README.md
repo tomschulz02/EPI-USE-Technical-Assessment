@@ -1,9 +1,5 @@
 # EPI-USE-Technical-Assessment
 
-<<<<<<< Updated upstream
-This repository will be used to complete the technical assessment provided by EPI-USE for an internship opportunity
-=======
-
 # User Manual
 
 [Application](https://epi-use-employee-management.onrender.com)
