@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Tree from 'react-d3-tree';
-import md5 from 'md5'; // for Gravatar
+import md5 from 'md5';
 import '../styles/hierarchy.css';
 
-// Utility: Gravatar URL
 const getGravatarUrl = (email, size = 40) => {
 	if (!email) return `https://www.gravatar.com/avatar/?d=identicon&s=${size}`;
 	const hash = md5(email.trim().toLowerCase());
 	return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=identicon`;
 };
 
-// Map roles to colors
 const roleColors = {
 	CEO: '#FF5722',
 	CTO: '#4CAF50',
@@ -25,9 +23,22 @@ const roleColors = {
 
 export default function HierarchyTree({ data, onNodeClick, hierarchyPointNode }) {
 	const [hoveredNode, setHoveredNode] = useState(null);
+	const treeContainer = useRef(null);
+	const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+	const [translate, setTranslate] = useState({ x: 0, y: 0 });
 
-	const CustomNode = ({ nodeDatum, toggleNode }) => {
-		const avatarSize = 40;
+	useEffect(() => {
+		if (treeContainer.current) {
+			const { width, height } = treeContainer.current.getBoundingClientRect();
+			setDimensions({ width, height });
+
+			// Center root horizontally, put it near top vertically
+			setTranslate({ x: width / 2, y: 50 });
+		}
+	}, []);
+
+	const CustomNode = React.memo(({ nodeDatum, toggleNode }) => {
+		const avatarSize = 60;
 		const xOffset = avatarSize / 2;
 		const roleColor = roleColors[nodeDatum.attributes.role] || '#777';
 
@@ -53,7 +64,7 @@ export default function HierarchyTree({ data, onNodeClick, hierarchyPointNode })
 					r={avatarSize / 2}
 					fill={roleColor}
 					stroke="#333"
-					strokeWidth={2}
+					strokeWidth={1}
 					onClick={toggleNode}
 					style={{ cursor: 'pointer' }}
 				/>
@@ -71,32 +82,34 @@ export default function HierarchyTree({ data, onNodeClick, hierarchyPointNode })
 				/>
 
 				{/* Name */}
-				<text x={avatarSize / 2 + 5} dy={0} fontSize={18}>
+				<text x={avatarSize / 2 + 5} dy={0} fontSize={18} fontWeight={300}>
 					{nodeDatum.name}
 				</text>
 
 				{/* Role */}
-				<text x={avatarSize / 2 + 5} dy={15} fontSize={14}>
+				<text x={avatarSize / 2 + 5} dy={18} fontSize={14} fontWeight={100} letterSpacing={1}>
 					{nodeDatum.attributes.role}
 				</text>
 			</g>
 		);
-	};
+	});
 
 	return (
-		<div className="hierarchy-container">
-			<Tree
-				data={data}
-				orientation="vertical"
-				translate={{ x: 400, y: 50 }}
-				nodeSize={{ x: 180, y: 100 }}
-				separation={{ siblings: 1.5, nonSiblings: 2 }}
-				pathFunc="elbow"
-				collapsible={true}
-				initialDepth={0}
-				onNodeClick={onNodeClick}
-				renderCustomNodeElement={(rd3tProps) => <CustomNode {...rd3tProps} />}
-			/>
+		<div className="hierarchy-container" ref={treeContainer}>
+			{dimensions.width > 0 && (
+				<Tree
+					data={data}
+					orientation="vertical"
+					translate={translate}
+					nodeSize={{ x: 180, y: 100 }}
+					separation={{ siblings: 1.5, nonSiblings: 2.5 }}
+					pathFunc="elbow"
+					collapsible={true}
+					initialDepth={10}
+					onNodeClick={onNodeClick}
+					renderCustomNodeElement={(rd3tProps) => <CustomNode {...rd3tProps} />}
+				/>
+			)}
 
 			{hoveredNode &&
 				createPortal(
