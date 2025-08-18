@@ -1,4 +1,5 @@
 # EPI-USE-Technical-Assessment
+
 <<<<<<< Updated upstream
 This repository will be used to complete the technical assessment provided by EPI-USE for an internship opportunity
 =======
@@ -59,4 +60,5 @@ Here you can add new employees to the system by completing the form.
 
 ![Add employee](./imgs/Add%20employee.png)  
 (Please note that all fields are required - only the Manager field does not need a specific value - and that Employee Number and Email are unique fields).
->>>>>>> Stashed changes
+
+> > > > > > > Stashed changes
