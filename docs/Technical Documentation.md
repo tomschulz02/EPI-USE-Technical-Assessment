@@ -19,6 +19,8 @@ This application is a fully cloud-hosted solution to managing employees within y
 
 The architecture of the application is split into a presentation, access, and service layer.
 
+![Architecture Diagram](../imgs/Architectural%20Diagram.png)
+
 ### Presentation Layer
 
 Users will interact with the application through the frontend on the presentation layer. A Model-View-Controller (MVC) pattern was chosen here to separate the frontend into three parts that each have their own purposes. This separation makes it easy to maintain, organise, and test the code and also helps delegate problems to the appropriate component that was created to handle them.
