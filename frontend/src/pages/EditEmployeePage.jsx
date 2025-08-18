@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import EmployeeForm from '../components/EmployeeForm';
 import apiRequest from '../api/api';
 import Loader from '../components/Loader';
+import { useMessage } from '../components/MessageContext';
 
 export default function EditEmployeePage({ emp_id, closeEdit }) {
 	const id = emp_id;
 	const [managers, setManagers] = useState([]);
 	const [employee, setEmployee] = useState({});
 	const [loading, setLoading] = useState(false);
+	const { showMessage } = useMessage();
 
 	useEffect(() => {
 		const fetchEmployeeData = async () => {
@@ -20,7 +21,7 @@ export default function EditEmployeePage({ emp_id, closeEdit }) {
 				const data = await apiRequest(`/employees/${id}`, { method: 'GET' });
 				setEmployee(data.data);
 			} catch (error) {
-				console.error(error);
+				showMessage(error.message, 'error');
 				setEmployee({});
 				setManagers([]);
 			} finally {
@@ -41,12 +42,12 @@ export default function EditEmployeePage({ emp_id, closeEdit }) {
 				},
 				body: JSON.stringify(form),
 			});
+			showMessage('Successfully updated employee data', 'success');
+			closeEdit({ target: { className: 'edit-employees-close-window' }, action: 'submit' });
 		} catch (error) {
-			console.error(error);
-			window.alert('Failed to update employee details');
+			showMessage(error.message, 'error');
 		} finally {
 			setLoading(false);
-			closeEdit({ target: { className: 'edit-employees-close-window' }, action: 'submit' });
 		}
 	};
 

@@ -3,10 +3,12 @@ import HierarchyTree from '../components/HierarchyTree';
 import api from '../api/api';
 import apiRequest from '../api/api';
 import Loader from '../components/Loader';
+import { useMessage } from '../components/MessageContext';
 
 export default function HierarchyPage() {
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const { showMessage } = useMessage();
 
 	useEffect(() => {
 		const fetchTree = async () => {
@@ -15,7 +17,7 @@ export default function HierarchyPage() {
 				const data = await apiRequest('/employees/hierarchy/', { method: 'GET' });
 				setData(data.data);
 			} catch (error) {
-				console.error(error);
+				showMessage(error.message, 'error');
 			} finally {
 				setLoading(false);
 			}

@@ -2,10 +2,10 @@ import { BrowserRouter as Router, Routes, Route, Outlet, Link, useLocation, Navi
 import { useState, useEffect } from 'react';
 import HomePage from './pages/HomePage';
 import AddEmployeePage from './pages/AddEmployeePage';
-import EditEmployeePage from './pages/EditEmployeePage';
 import HierarchyPage from './pages/HierarchyPage';
 import TablePage from './pages/TablePage';
 import ViewPage from './pages/ViewPage';
+import { MessagePopup } from './components/MessageContext';
 
 export default function App() {
 	return (
@@ -51,6 +51,7 @@ function Layout() {
 					Add
 				</Link>
 			</nav>
+			<MessagePopup />
 			<main>
 				<Outlet />
 			</main>

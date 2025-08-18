@@ -14,7 +14,18 @@ export default function EmployeeForm({ initialData, managers, onSubmit }) {
 	});
 
 	useEffect(() => {
-		setForm(initialData);
+		setForm(
+			initialData || {
+				name: '',
+				surname: '',
+				email: '',
+				role: '',
+				salary: '',
+				dob: '',
+				employee_no: '',
+				manager: '',
+			}
+		);
 	}, [initialData]);
 
 	const handleChange = (e) => {

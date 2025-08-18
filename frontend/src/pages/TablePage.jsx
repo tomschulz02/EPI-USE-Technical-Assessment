@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import apiRequest from '../api/api';
 import EditEmployeePage from './EditEmployeePage';
 import EmployeeCard from '../components/EmployeeCard';
+import { useMessage } from '../components/MessageContext';
 
 export default function TablePage() {
 	const [employees, setEmployees] = useState([]);
@@ -15,6 +16,7 @@ export default function TablePage() {
 	const [openEdit, setOpenEdit] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] = useState(null);
 	const [openView, setOpenView] = useState(false);
+	const { showMessage } = useMessage();
 
 	useEffect(() => {
 		const fetchEmployees = async () => {
@@ -24,7 +26,7 @@ export default function TablePage() {
 				setEmployees(data.data);
 				setOriginalEmployeeList(data.data);
 			} catch (error) {
-				console.error(error);
+				showMessage(error.message, 'error');
 				setEmployees([]);
 			} finally {
 				setLoading(false);
@@ -41,11 +43,14 @@ export default function TablePage() {
 			setLoading(true);
 			try {
 				await apiRequest(`/employees/${id}`, { method: 'DELETE' });
+				showMessage('Removed employee from the register', 'success');
 			} catch (error) {
-				console.error(error);
+				showMessage(error.message, 'error');
 			} finally {
 				setLoading(false);
-				window.location.reload();
+				setTimeout(() => {
+					window.location.reload();
+				}, 1500);
 			}
 		}
 	};
@@ -115,7 +120,9 @@ export default function TablePage() {
 		}
 
 		if (e.action === 'submit') {
-			window.location.reload();
+			setTimeout(() => {
+				window.location.reload();
+			}, 1500);
 		}
 	};
 

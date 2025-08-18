@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import EmployeeForm from '../components/EmployeeForm';
 import apiRequest from '../api/api';
 import Loader from '../components/Loader';
+import { useMessage } from '../components/MessageContext';
 
 export default function AddEmployeePage() {
 	const [managers, setManagers] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const { showMessage } = useMessage();
 
 	useEffect(() => {
 		const fetchManagers = async () => {
@@ -15,7 +17,7 @@ export default function AddEmployeePage() {
 
 				setManagers(data.data);
 			} catch (error) {
-				console.error(error);
+				showMessage('Failed to load managers', 'error');
 				setManagers([]);
 			} finally {
 				setLoading(false);
@@ -35,9 +37,11 @@ export default function AddEmployeePage() {
 				},
 				body: JSON.stringify(form),
 			});
+			if (response.success) {
+				showMessage('Successfully registered employee', 'success');
+			}
 		} catch (error) {
-			console.error(error);
-			window.alert("Couldn't add employee");
+			showMessage(error.message, 'error');
 		} finally {
 			setLoading(false);
 		}

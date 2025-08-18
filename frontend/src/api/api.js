@@ -10,6 +10,6 @@ export default async function apiRequest(path, options) {
 
 		return data;
 	} catch (error) {
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
