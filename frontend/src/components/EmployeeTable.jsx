@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/table.css';
 import md5 from 'md5';
 
-export default function EmployeeTable({ employees, onEdit, onDelete, onSort }) {
+export default function EmployeeTable({ employees, onEdit, onDelete, onSort, onView }) {
 	const [menuPosition, setMenuPosition] = useState(null);
 	const [activeEmployee, setActiveEmployee] = useState(null);
 	const [sort, setSort] = useState({ column: '', direction: 'asc' });
@@ -74,14 +74,6 @@ export default function EmployeeTable({ employees, onEdit, onDelete, onSort }) {
 				<tbody>
 					{employees.map((emp) => (
 						<tr key={emp.id}>
-							{/* <td>
-                                <img
-                                    src={`https://www.gravatar.com/avatar/${md5(emp.email.trim().toLowerCase())}?d=identicon`}
-                                    alt="avatar"
-                                    width="40"
-                                    height="40"
-                                />
-                            </td> */}
 							<td>
 								{emp.name} {emp.surname}
 							</td>
@@ -111,6 +103,7 @@ export default function EmployeeTable({ employees, onEdit, onDelete, onSort }) {
 						}}>
 						<button
 							onClick={() => {
+								onView(activeEmployee);
 								handleCloseMenu();
 							}}>
 							View

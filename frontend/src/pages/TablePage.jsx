@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar';
 import Loader from '../components/Loader';
 import apiRequest from '../api/api';
 import EditEmployeePage from './EditEmployeePage';
+import EmployeeCard from '../components/EmployeeCard';
 
 export default function TablePage() {
 	const [employees, setEmployees] = useState([]);
@@ -13,6 +14,7 @@ export default function TablePage() {
 	const [sortConfig, setSortConfig] = useState({ column: '', direction: 'asc' });
 	const [openEdit, setOpenEdit] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] = useState(null);
+	const [openView, setOpenView] = useState(false);
 
 	useEffect(() => {
 		const fetchEmployees = async () => {
@@ -94,13 +96,17 @@ export default function TablePage() {
 			if (compareA > compareB) return direction === 'asc' ? 1 : -1;
 			return 0;
 		});
-		console.log(sortedEmployees);
 		setEmployees(sortedEmployees);
 	};
 
 	const editEmployee = (id) => {
 		setSelectedEmployee(id);
 		setOpenEdit(true);
+	};
+
+	const viewEmployee = (emp) => {
+		setSelectedEmployee(emp);
+		setOpenView(true);
 	};
 
 	const closeEdit = (e) => {
@@ -116,12 +122,19 @@ export default function TablePage() {
 	return (
 		<>
 			{loading && <Loader />}
+			{openView && <EmployeeCard details={selectedEmployee} onClose={() => setOpenView(false)} />}
 			{openEdit && <EditEmployeePage emp_id={selectedEmployee} closeEdit={closeEdit} />}
 			<div className="table-page-content">
 				<h1>Employees Table</h1>
 				<SearchBar classname={'table-page-search'} value={search} onChange={setSearch} />
 				{filtered.length > 0 ? (
-					<EmployeeTable employees={filtered} onEdit={editEmployee} onDelete={handleDelete} onSort={handleSort} />
+					<EmployeeTable
+						employees={filtered}
+						onEdit={editEmployee}
+						onDelete={handleDelete}
+						onSort={handleSort}
+						onView={viewEmployee}
+					/>
 				) : (
 					<div>No employee data to display</div>
 				)}
