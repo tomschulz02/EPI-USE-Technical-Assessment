@@ -115,10 +115,49 @@ async function removeEmployee(id) {
 	}
 }
 
+async function fetchHierarchy() {
+	try {
+		const employees = await employeesRepo.fetchAllEmployees();
+
+		// create tree structure from flat list
+		const lookup = {};
+		employees.forEach((employee) => {
+			lookup[employee.id] = {
+				name: `${employee.name} ${employee.surname}`,
+				attributes: {
+					role: employee.role,
+					email: employee.email,
+					employee_no: employee.employee_number,
+					salary: employee.salary,
+				},
+				children: [],
+			};
+		});
+
+		let root = [];
+		employees.forEach((employee) => {
+			if (employee.manager_id === null) {
+				root.push(lookup[employee.id]);
+			} else {
+				const manager = lookup[employee.manager_id];
+				if (manager) {
+					manager.children.push(lookup[employee.id]);
+				}
+			}
+		});
+
+		return root;
+	} catch (error) {
+		console.error(error);
+		return 'SERVICE_ERROR';
+	}
+}
+
 export const employeesService = {
 	fetchAllEmployees,
 	fetchEmployee,
 	addEmployee,
 	updateEmployee,
 	removeEmployee,
+	fetchHierarchy,
 };

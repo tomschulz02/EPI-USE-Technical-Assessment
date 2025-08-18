@@ -63,7 +63,7 @@ async function deleteEmployee(id) {
 
 async function checkDuplicateEntry(emp_no, email) {
 	try {
-		const result = await pool.query('SELECT id FROM employees WHERE employee_number=$1 OR email=$2;');
+		const result = await pool.query('SELECT id FROM employees WHERE employee_number=$1 OR email=$2;', [emp_no, email]);
 
 		return result.rows.length > 0;
 	} catch (err) {

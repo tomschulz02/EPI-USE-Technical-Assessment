@@ -7,6 +7,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+	console.log(`Request received: ${req.method} ${req.url}`);
+	next();
+});
+
 app.use('/employees', router);
 
 const PORT = process.env.SERVER_PORT || 5000;

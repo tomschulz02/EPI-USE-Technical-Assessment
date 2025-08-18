@@ -4,6 +4,7 @@ import { employeesController } from '../controllers/employeesController.js';
 const router = express.Router();
 
 router.get('/', employeesController.fetchAllEmployees);
+router.get('/hierarchy', employeesController.fetchHierarchy);
 router.get('/:id', employeesController.fetchEmployee);
 router.post('/', employeesController.addEmployee);
 router.put('/:id', employeesController.updateEmployee);
