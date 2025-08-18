@@ -21,7 +21,7 @@ export default function HierarchyPage() {
 	if (!data) return <p>Loading...</p>;
 
 	return (
-		<div>
+		<div className="view-page-hierarchy-container">
 			<h1>Organisation Hierarchy</h1>
 			<HierarchyTree data={data} onNodeClick={(node) => console.log(node)} />
 		</div>
